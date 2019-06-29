@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MistrzowieWynajmu.Models.Database;
 
 namespace MistrzowieWynajmu
 {
@@ -21,7 +23,9 @@ namespace MistrzowieWynajmu
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            var dbConnectionString = @"Server=(localdb)\mssqllocaldb;Database=MistrzowieDB;
+                                      Trusted_Connection=True;";
+            services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(dbConnectionString));
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
